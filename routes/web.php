@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,4 +24,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
-route::get('/home', [HomeController::class, 'redirect_to_home']);
+route::get('/home', [HomeController::class, 'redirect_to_dashboard']);
+
+route::get('/', [HomeController::class, 'index']);
+
+route::get('/upload_product', [AdminController::class, 'upload_product']);
+
+route::post('/uploading_product', [AdminController::class, 'uploading_product']); 
