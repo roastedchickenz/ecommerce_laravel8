@@ -30,4 +30,11 @@ class AdminController extends Controller
         $inputted_data->save();
         return redirect()->back()->with('alert', 'Product Successfully Added');
     }
+
+    public function show_product()
+    {
+        $product_from_db = products::all(); 
+        return view('admin.admin_show_product', compact('product_from_db'));
+    }
+
 }
