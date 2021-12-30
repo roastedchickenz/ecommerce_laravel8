@@ -28,6 +28,8 @@ route::get('/home', [HomeController::class, 'redirect_to_dashboard']);
 
 route::get('/', [HomeController::class, 'index']);
 
+
+
 route::get('/upload_product', [AdminController::class, 'upload_product']);
 
 route::post('/uploading_product', [AdminController::class, 'uploading_product']); 
@@ -36,3 +38,6 @@ route::get('/show_product', [AdminController::class, 'show_product']);
 
 route::get('/delete_product/{id}', [AdminController::class, 'delete_product']); 
 
+route::get('/edit_product/{id}', [AdminController::class, 'edit_product']); 
+
+route::post('/editing_product/{id}', [AdminController::class, 'editing_product']); 

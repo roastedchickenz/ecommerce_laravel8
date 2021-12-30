@@ -74,6 +74,12 @@
                    
                 </tbody>
             </table> -->
+            @if(session()->has('alert'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6" role="alert">
+                    <p class="font-bold">{{session()->get('alert')}}</p> 
+                </div>
+
+            @endif
             <table class="min-w-full border-collapse block md:table">
                 <thead class="block md:table-header-group">
                     <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
@@ -103,10 +109,10 @@
 
                                 <td class="p-2 md:border md:border-grey-500  block md:table-cell text-center">
                                     <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
-                                    <a href="">
+                                    <a href="{{url('edit_product', $product->id)}}">
                                         <button class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</button>
                                     </a>
-                                    <a href="{{url('deleteproduct', $product->id)}}">
+                                    <a href="{{url('delete_product', $product->id)}}">
                                         <button class=" bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">Delete</button>
                                     </a>
                                 </td>
@@ -127,10 +133,10 @@
                                 </td>
                                 <td class="p-2 md:border md:border-grey-500 block md:table-cell text-center">
                                     <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
-                                    <a href="">
+                                    <a href="{{url('edit_product', $product->id)}}">
                                         <button class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</button>
                                     </a>
-                                    <a href="{{url('deleteproduct', $product->id)}}">
+                                    <a href="{{url('delete_product', $product->id)}}">
                                         <button class=" bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">Delete</button>
                                     </a>
                                 </td>

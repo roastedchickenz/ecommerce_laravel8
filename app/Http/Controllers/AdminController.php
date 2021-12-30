@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Models\Products;
 
+use App\Models\actionOnProducts;
+
+use Illuminate\Support\Facades\DB;
+
 class AdminController extends Controller
 {
     public function upload_product()
@@ -23,7 +27,7 @@ class AdminController extends Controller
         $inputted_data->quantity = $request->quantity;
 
         $image = $request->product_image;
-        $image_name = date("d-m-y h:i:s") . '-[ ' . ($_FILES['product_image']['name']) . ' ]';
+        $image_name = date("d-m-y h:i:s") . '- [ ' . ($_FILES['product_image']['name']) . ' ]';
         $request->product_image->move('uploaded_product_image', $image_name);
         $inputted_data->image = $image_name;
         
@@ -35,6 +39,90 @@ class AdminController extends Controller
     {
         $product_from_db = products::all(); 
         return view('admin.admin_show_product', compact('product_from_db'));
+    }
+
+    public function delete_product($id)
+    {
+        $query = DB::table('products')->where('id', $id);
+        $products = $query->first();
+
+        $id = $products->id;
+        $name = $products->name;
+        $price = $products->price;
+        $description = $products->description;
+        $quantity = $products->quantity;
+        $image = $products->image;
+        $query->delete();
+
+        $action_on_products = new actionOnProducts;
+
+        $action_on_products->action = 'delete';
+        $action_on_products->idOnProducts = $id;
+        $action_on_products->old_name = $name;
+        $action_on_products->old_price = $price;
+        $action_on_products->old_description = $description;
+        $action_on_products->old_quantity = $quantity;
+        $action_on_products->old_image = $image;
+        $action_on_products->save();
+        
+
+        return redirect()->back()->with('alert', 'Product ' . $name . 'has been deleted' );
+        
+    }
+
+    public function edit_product($id)
+    {
+        $product = DB::table('products')->where('id', $id)->first();
+        return view('admin.admin_edit_product', compact('product'));
+    }
+
+    public function editing_product($id, Request $request)
+    {
+        $query = DB::table('products')->where('id', $id);
+        $products = $query->first();
+        // var_dump($products);
+        $old_id = $products->id;
+        $old_name = $products->name;
+        $old_price = $products->price;
+        $old_description = $products->description;
+        $old_quantity = $products->quantity;
+        $old_image = $products->image;
+        
+
+        $action_on_products = new actionOnProducts;
+
+        $action_on_products->action = 'edit';
+        $action_on_products->idOnProducts = $old_id;
+        $action_on_products->old_name = $old_name;
+        $action_on_products->old_price = $old_price;
+        $action_on_products->old_description = $old_description;
+        $action_on_products->old_quantity = $old_quantity;
+        $action_on_products->old_image = $old_image;
+        $action_on_products->save();
+
+
+        if(isset($request->product_image))
+        {
+            $image = $request->product_image;
+            $image_name = date("d-m-y h:i:s") . '- [ ' . ($_FILES['product_image']['name']) . ' ]';
+            $request->product_image->move('uploaded_product_image', $image_name);
+        }
+        else
+        {
+            $image_name = $old_image;
+        }
+        
+        $query->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'quantity' => $request->quantity,
+            'image' => $image_name
+        ]);
+        
+
+        return redirect('show_product')->with('alert', 'Product: ' . $old_name . ' and its spesification(s) has been edited' );
+
     }
 
 }
