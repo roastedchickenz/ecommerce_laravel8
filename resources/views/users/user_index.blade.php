@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>Sixteen Clothing HTML Template</title>
+    <title>Sixteen Clothing HTML Templatezz</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -131,6 +131,7 @@ https://templatemo.com/tm-546-sixteen-clothing
             </div>
           </div>
           
+          
           @foreach($product_from_db as $product)
           <div class="col-md-4">
             <div class="product-item">
@@ -139,48 +140,35 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <a href="#"><h4>{{$product->name}}</h4></a>
                 <h6>${{$product->price}}</h6>
                 <p>{{$product->description}}.</p>
-                <ul class="stars">
+                <!-- <a class="btn btn-success" href="#">
+                  Add to cart
+                </a> -->
+                <!-- <ul class="stars">
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span>Reviews (32)</span>
+                </ul> -->
+                <!-- <span>Reviews (32)</span> -->
+
+
+
+                <form action="{{url('add_to_cart', $product->id)}}" method="post">
+                  @csrf
+                  <input type="number" min="1" value="1" class="mb-4 w-100">
+
+                  <input class="btn btn-primary" type="submit" value="Add to Cart"> 
+
+                </form>
+
+
+
               </div>
             </div>
           </div>
           @endforeach
-          <table class="table-auto odd:text-white even:text-blue table table-striped">
-                <thead class="odd:text-white even:text-blue">
-                    {#each people as person}
-                    <tr >
-                        <th>Song</th>
-                        <th>Artist</th>
-                        <th>Year</th>
-                    </tr>
-                    {/each}
-                </thead>
-                <tbody class="odd:text-white even:text-blue">
-                    <tr class="odd:text-white even:text-blue">
-                    <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                    <td>Malcolm Lockyer</td>
-                    <td>1961</td>
-                    </tr>
-                    <tr>
-                    <td>Witchy Woman</td>
-                    <td>The Eagles</td>
-                    <td>1972</td>
-                    </tr>
-                    <tr>
-                    <td>Shining Star</td>
-                    <td>Earth, Wind, and Fire</td>
-                    <td>1975</td>
-                    </tr>
-
-                   
-                </tbody>
-            </table>
+          
         </div>
       </div>
     </div>
