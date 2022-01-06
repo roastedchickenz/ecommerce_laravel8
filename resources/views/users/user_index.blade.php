@@ -11,6 +11,8 @@
 
     <title>Sixteen Clothing HTML Templatezz</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!--
@@ -66,8 +68,12 @@ https://templatemo.com/tm-546-sixteen-clothing
               </li>
               <li class="nav-item">
                 @if (Route::has('login'))
-                    @auth
-                      <li><a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a></li>
+                    @auth 
+
+                    @php
+                        $product_on_cart_string = (string) $product_on_cart;
+                    @endphp
+                      <li><a class="nav-link" href="{{ url('/cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart [ {{$product_on_cart}} ]</a></li>
                         <form method="POST" action="{{ route('logout') }}">
                               @csrf
 
@@ -126,11 +132,22 @@ https://templatemo.com/tm-546-sixteen-clothing
         <div class="row">
           <div class="col-md-12">
             <div class="section-heading">
+              @if(session()->has('alert'))
+                <div class="bg-danger text-primary px-4 py-3 rounded mt-6" role="alert">
+                    <p class="font-weight-bold text-white">{{session()->get('alert')}}</p> 
+                </div>
+    
+              @endif
+              @if(session()->has('success'))
+                <div class="bg-success text-primary px-4 py-3 rounded mt-6" role="alert">
+                    <p class="font-weight-bold text-white">{{session()->get('success')}}</p> 
+                </div>
+    
+              @endif
               <h2>Latest Products</h2>
               <a href="products.html">view all products <i class="fa fa-angle-right"></i></a>
             </div>
           </div>
-          
           
           @foreach($product_from_db as $product)
           <div class="col-md-4">
@@ -140,6 +157,7 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <a href="#"><h4>{{$product->name}}</h4></a>
                 <h6>${{$product->price}}</h6>
                 <p>{{$product->description}}.</p>
+                <p>Stock: {{$product->quantity}}</p>
                 <!-- <a class="btn btn-success" href="#">
                   Add to cart
                 </a> -->
@@ -154,9 +172,9 @@ https://templatemo.com/tm-546-sixteen-clothing
 
 
 
-                <form action="{{url('add_to_cart', $product->id)}}" method="post">
+                <form action="{{url('add_to_cart', $product->id)}}" method="post"> 
                   @csrf
-                  <input type="number" min="1" value="1" class="mb-4 w-100">
+                  <input type="number" min="1" value="1" class="mb-4 w-100" name="quantity_yang_mau_dibeli"> 
 
                   <input class="btn btn-primary" type="submit" value="Add to Cart"> 
 

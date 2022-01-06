@@ -42,4 +42,11 @@ route::get('/edit_product/{id}', [AdminController::class, 'edit_product']);
 
 route::post('/editing_product/{id}', [AdminController::class, 'editing_product']); 
 
+
+Route::get('cart', [HomeController::class, 'cart']);
 route::post('/add_to_cart/{id}', [HomeController::class, 'add_to_cart']); 
+
+route::get('/delete_from_cart/{id}', [HomeController::class, 'delete_from_cart']); 
+
+route::post('/buying_product', [HomeController::class, 'buying_product']); 
+
