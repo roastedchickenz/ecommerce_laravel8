@@ -17,7 +17,7 @@
         <div class="mt-4 flex items-center justify-between">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
-
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div>
                     <x-jet-button type="submit">
                         {{ __('Resend Verification Email') }}
@@ -27,7 +27,7 @@
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
                     {{ __('Log Out') }}
                 </button>

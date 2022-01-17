@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class transaction extends Model
 {
     use HasFactory;
+    protected $fillable = ['status_change', 'status'];
 }
