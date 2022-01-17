@@ -44,26 +44,55 @@ https://templatemo.com/tm-546-sixteen-clothing
     <header class="">
       <nav class="navbar navbar-expand-lg">
         <div class="container">
-          <a class="navbar-brand" href="http://localhost:8000/"><h2>Item <em>Mu</em></h2></a>
+          <a class="navbar-brand" href="{{ url('/index') }}"><h2>Item<em>Mu</em></h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8000/">Home
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url('/index') }}">Home
                   <span class="sr-only">(current)</span>
                 </a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="products.html">Our Products</a>
+                <a class="nav-link" href="{{ url('/products') }}">Our Products</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">About Us</a>
+                <a class="nav-link" href="{{ url('/about') }}">About Us</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
               </li>
+              <li class="nav-item">
+                @if (Route::has('login'))
+                    @auth 
+
+                    @php
+                        $product_on_cart_string = (string) $product_on_cart;
+                    @endphp
+                      <li><a class="nav-link" href="{{ url('/cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart [ {{$product_on_cart}} ]</a></li>
+                        <form method="POST" action="{{ route('logout') }}">
+                              @csrf
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                              <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();">
+                                  {{ __('Log Out') }}
+                              </a>
+                          </form>
+                      </li>
+                      @else
+                        <li><a class="nav-link" href="{{ route('login') }}">Log in</a></li>
+
+                        @if (Route::has('register'))
+                        <li><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                        @endif
+                    @endauth
+                  </div>
+                @endif
+              </li>
+
+
+
             </ul>
           </div>
         </div>
@@ -94,26 +123,16 @@ https://templatemo.com/tm-546-sixteen-clothing
             </div>
           </div>
           <div class="col-md-8">
-<!-- How to change your own map point
-	1. Go to Google Maps
-	2. Click on your location point
-	3. Click "Share" and choose "Embed map" tab
-	4. Copy only URL and paste it within the src="" field below
--->
+
             <div id="map">
               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4671122420996!2d106.77874291438219!3d-6.20194329551027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6dcc7d2c4ad%3A0x209cb1eef39be168!2sUniversitas%20Bina%20Nusantara%2C%20Kampus%20Anggrek!5e0!3m2!1sid!2sid!4v1641290994389!5m2!1sid!2sid" width="100%" height="330px" frameborder="0" style="border:0" allowfullscreen></iframe>
+
             </div>
           </div>
           <div class="col-md-4">
             <div class="left-content">
               <h4>About our office</h4>
               <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisic elit. Sed voluptate nihil eumester consectetur similiqu consectetur.<br><br>Lorem ipsum dolor sit amet, consectetur adipisic elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti.</p> -->
-              <ul class="social-icons">
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-              </ul>
             </div>
           </div>
         </div>

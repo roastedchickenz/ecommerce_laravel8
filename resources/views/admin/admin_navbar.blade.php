@@ -8,14 +8,15 @@
 			<div class="w-1/2 pr-0">
 				<div class="flex relative inline-block float-right">
 				
-				  <div class="relative text-sm text-gray-100">
-                        <form method="POST" action="{{ route('logout') }}">
-                              @csrf
-                              <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                              </a>
-                        </form>
-				  </div>
+                <div class="relative text-sm text-gray-100">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </a>
+                    </form>
+                </div>
 
 
 					<div class="block lg:hidden pr-4">
@@ -45,6 +46,12 @@
 					<li class="mr-6 my-2 md:my-0">
                         <a href="show_product" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-100 border-b-2 border-gray-900  hover:border-purple-400">
                             <i class="fa fa-envelope fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Show Products</span> 
+                        </a>
+                    </li>
+
+                    <li class="mr-6 my-2 md:my-0">
+                        <a href="orders" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-100 border-b-2 border-gray-900  hover:border-purple-400">
+                            <i class="fa fa-envelope fa-fw mr-3"></i><span class="pb-1 md:pb-0 text-sm">Orders</span> 
                         </a>
                     </li>
 

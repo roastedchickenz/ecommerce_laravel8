@@ -9,7 +9,9 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>ItemMu Your Cart</title>
+    <title>ItemMu-Item and Voucher Game</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +33,13 @@ https://templatemo.com/tm-546-sixteen-clothing
   <body>
 
     <!-- ***** Preloader Start ***** -->
-   
+    <!-- <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>   -->
     <!-- ***** Preloader End ***** -->
 
     <!-- Header -->
@@ -60,8 +68,12 @@ https://templatemo.com/tm-546-sixteen-clothing
               </li>
               <li class="nav-item">
                 @if (Route::has('login'))
-                    @auth
-                    <li><a class="nav-link" href="{{ url('/cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+                    @auth 
+
+                    @php
+                        $product_on_cart_string = (string) $product_on_cart;
+                    @endphp
+                      <li><a class="nav-link" href="{{ url('/cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart [ {{$product_on_cart}} ]</a></li>
                         <form method="POST" action="{{ route('logout') }}">
                               @csrf
                               <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -89,108 +101,80 @@ https://templatemo.com/tm-546-sixteen-clothing
       </nav>
     </header>
 
+
+
+
     <div class="banner header-text">
       <div class="owl-banner owl-carousel">
         <div class="banner-item-01">
           <div class="text-content">
-            <h4>Best Offer</h4>
-            <h2>New Arrivals On Sale</h2>
+            <h4>ItemMu</h4>
+            <h2>Best Place to Buy Gaming Item</h2>
           </div>
         </div>
         <div class="banner-item-02">
           <div class="text-content">
-            <h4>Flash Deals</h4>
-            <h2>Get your best products</h2>
+            <h4>Game Item</h4>
+            <h2>Get the best Item</h2>
           </div>
         </div>
         <div class="banner-item-03">
           <div class="text-content">
-            <h4>Last Minute</h4>
-            <h2>Grab last minute deals</h2>
+            <h4>Game Voucher</h4>
+            <h2>Grab the lowest price voucher</h2>
           </div>
         </div>
       </div>
     </div>
+    <!-- Banner Ends Here -->
 
-    @if($product_from_db->isEmpty() )
-        <br>
-        <h1 style="text-align:center;">Cart is empty<h1>
-    @else
-    @if(session()->has('alert'))
-      <div class="bg-danger text-primary px-4 py-3 rounded mt-6" role="alert">
-          <p class="font-weight-bold text-white">{{session()->get('alert')}}</p> 
-      </div>
-
-    @endif
-    <table class="table mt-5 ml-5">
-      <thead>
-          <tr>
-            <!-- <th scope="col">No.</th>  -->
-            <th scope="col">Name</th> 
-            <th scope="col">Price</th> 
-            <th scope="col">Description</th> 
-            <th scope="col">Quantity</th> 
-            <th scope="col">Image</th> 
-            <th scope="col">Delete</th>
-          </tr>
-      </thead>
-        
-      <form action="{{url('buying_product')}}" method="post">
-      @csrf
-      @foreach($product_from_db as $product)
-      <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-      <tbody>
-        <tr>
-          <!-- <th scope="row">{{$product->id}}</th> -->
-          <td>
-            <input type="text" name="product_name[]" value="{{$product->name}}" style="display:none;">
-            {{$product->name}}
-            
-          </td>
-          <td>
-            <input type="text" name="product_price[]" value="{{$product->price}}" style="display:none;">
-            {{$product->price}}
-          </td>
-          
-          <td>{{$product->description}}</td>
-
-          <td>
-          <input type="text" name="product_quantity[]" value="{{$product->quantity}}" style="display:none;">
-            {{$product->quantity}}
-            
-          </td>
-          <td>
-            <input type="text" name="product_image[]" value="{{$product->image}}" style="display:none;">
-            <img width="150px" src="/uploaded_product_image/{{$product->image}}" alt="">
-          </td>
-          <td><a class="btn btn-danger"href="{{url('delete_from_cart', $product->id)}}">Delete from Cart</a> </td> 
-            
-            
-        </tr>
-      </tbody>
-      @endforeach
-    </table>
-    <button type="submit" class="btn btn-success ml-5"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Buy</button>
-    
-  </form>
-    @endif
-
-    @if(session()->has('done'))
-      <div class="bg-success border border-green-400 text-green-700 px-4 py-3 rounded relative mt-6" role="alert">
-          <p class="font-weight-bold text-white">{{session()->get('done')}}</p>
-      </div>
-    @endif
-
-    <footer>
+    <div class="latest-products">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div class="inner-content">
-              <p>Copyright &copy; 2021 ItemMu
-            
-            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+            <div class="section-heading">
+              @if(session()->has('alert'))
+                <div class="bg-danger text-primary px-4 py-3 rounded mt-6" role="alert">
+                    <p class="font-weight-bold text-white">{{session()->get('alert')}}</p> 
+                </div>
+    
+              @endif
+              @if(session()->has('success'))
+                <div class="bg-success text-primary px-4 py-3 rounded mt-6" role="alert">
+                    <p class="font-weight-bold text-white">{{session()->get('success')}}</p> 
+                </div>
+    
+              @endif
+              <h2>Latest Products</h2>
+              <a href="products.html">view all products <i class="fa fa-angle-right"></i></a>
             </div>
           </div>
+          
+          @foreach($product_from_db as $product)
+          <div class="col-md-4">
+            <div class="product-item">
+              <!-- <a href="#"><img src="{{asset('/uploaded_product_image/'.$product->image)}}" alt=""></a> -->
+              <a href="#"><img src="../uploaded_product_image/{{$product->image}}" alt=""></a>
+              <div class="down-content">
+                <a href="#"><h4>{{$product->name}}</h4></a>
+                <h6>${{$product->price}}</h6>
+                <p>{{$product->description}}.</p>
+                <p>Stock: {{$product->quantity}}</p>
+                <form action="{{url('add_to_cart', $product->id)}}" method="post"> 
+                  @csrf
+                  <input type="number" min="1" value="1" class="mb-4 w-100" name="quantity_yang_mau_dibeli"> 
+
+                  <input class="btn btn-primary" type="submit" value="Add to Cart"> 
+
+                </form>
+
+
+
+              </div>
+            </div>
+          </div>
+          @endforeach
+          
         </div>
       </div>
-    </footer>
+    </div>
